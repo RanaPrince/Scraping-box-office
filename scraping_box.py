@@ -63,9 +63,21 @@ def Box_office_data(year):
                 row_val = [r.text for r in row.find("td")]
                 row_values.append(row_val)
             
+            #change column names for as per the share percentage
+            header_names = [header_names[0],header_names[1],header_names[2],header_names[3],
+                            'Domestic-Collection %',header_names[5],'Foreign-Collection %']
+            
             #Creating a dataframe for the table scraped
             boxoffice_data= pd.DataFrame(row_values,columns = header_names)
             
+            
+            
+            # #change column names for as per the share percentage - this fails as percentage columns have same name
+            #  boxoffice_data = boxoffice_data.rename(columns={boxoffice_data.columns[4]: 'Domestic-Collection %',
+            #                     boxoffice_data.columns[6]:'Foreign-Collection %'},
+            #            inplace=True)
+
+
             #storing the table as a csv file based on year for which data extracted
             boxoffice_data.to_csv(os.path.join(r'C:\Users\ranap\OneDrive\Desktop\Crawling & API\Scraping Box Office',
                             f'Box-Office {year} Data.csv'),index=False)
@@ -83,18 +95,18 @@ def Box_office_data(year):
         
     #Function to extract the data for past n years
 
+#Function to extract the data for past n years
+
 def Extract_past_data(past_years):
     current_year = datetime.datetime.now().year
     start_year = current_year - past_years
     
-    #to extract the data in range
-    for i in range(start_year+1,current_year+1):
+    #to extract the data in range 
+    for i in range(start_year+1,current_year+1): # added 1 for index adjustments
         Box_office_data(i)
 
-        if i == current_year: #Display the complte extraction message 
+        if i == current_year: #Display the complete extraction message 
             print("-"*20)
             print(f"\nExtraction done for past {past_years} years,files saves as csv")
-
-
 
 
